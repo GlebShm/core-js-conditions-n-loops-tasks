@@ -393,7 +393,25 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix() {}
+function rotateMatrix(matrix) {
+  const a = matrix;
+  const n = matrix.length;
+  for (let layer = 0; layer < Math.floor(n / 2); layer += 1) {
+    const first = layer;
+    const last = n - 1 - layer;
+
+    for (let i = first; i < last; i += 1) {
+      const offset = i - first;
+      const top = matrix[first][i];
+      a[first][i] = matrix[last - offset][first];
+      a[last - offset][first] = matrix[last][last - offset];
+      a[last][last - offset] = matrix[i][last];
+      a[i][last] = top;
+    }
+  }
+
+  return matrix;
+}
 
 /**
  * Sorts an array of numbers in ascending order in place.
@@ -516,7 +534,7 @@ function getNearestBigger(number) {
       break;
     }
   }
-  for (let j = numArr.length; j > minLeft; j -= 1) {
+  for (let j = numArr.length - 1; j > minLeft; j -= 1) {
     if (numArr[j] > numArr[minLeft] && numArr[minFromRight] >= numArr[j]) {
       minFromRight = j;
     }
